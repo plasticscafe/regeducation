@@ -1,11 +1,14 @@
-var blockCreate, checkerClick, itemCheck, regexCheck, regexExec;
+var blockCreate, checkerClick, itemCheck, regexCheck, regexMatch;
 
-regexExec = function(pattern, string) {
-  var pt, re;
+regexMatch = function(pattern, string) {
+  var pt, re, res;
   pt = pattern.match(/^\/(.*)\/(.*)$/);
   if (pt === null) return null;
   re = new RegExp(pt[1], pt[2]);
-  return string.match(re);
+  res = string.match(re);
+  if (res === null || res.length === 0) return res;
+  if (typeof res[1] === 'undefined') return [res[0]];
+  return res;
 };
 
 regexCheck = function(pattern, example) {
@@ -138,6 +141,8 @@ checkerClick = function(e) {
   return _results;
 };
 
-document.addEventListener('DOMContentLoaded', function(e) {
-  return blockCreate(data);
-});
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', function(e) {
+    return blockCreate(data);
+  });
+}

@@ -1,8 +1,11 @@
-regexExec = (pattern, string) -> 
+regexMatch = (pattern, string) -> 
   pt = pattern.match(/^\/(.*)\/(.*)$/)
   return null if pt is null
   re = new RegExp pt[1], pt[2]
-  string.match(re)
+  res = string.match(re)
+  return res if res == null || res.length == 0
+  return [res[0]] if typeof res[1] == 'undefined'
+  res
 
 regexCheck = (pattern, example) ->
   res = regexExec pattern, example.text
@@ -124,5 +127,6 @@ checkerClick = (e) ->
         n.className = 'error'
         ex[2].textContent = '☓: ' + res.res
 
-document.addEventListener 'DOMContentLoaded', (e) ->
-  blockCreate(data)
+if typeof document != 'undefined' 
+  document.addEventListener 'DOMContentLoaded', (e) ->
+    blockCreate(data)
