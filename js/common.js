@@ -1,4 +1,12 @@
-var blockCreate, checkerClick, itemCheck, regexCheck, regexMatch;
+var blockCreate, checkerClick, itemCheck, regexCheck, regexMatch, regexTest;
+
+regexTest = function(pattern, string) {
+  var pt, re;
+  pt = pattern.match(/^\/(.*)\/(.*)$/);
+  if (pt === null) return null;
+  re = new RegExp(pt[1], pt[2]);
+  return re.test(string);
+};
 
 regexMatch = function(pattern, string) {
   var pt, re, res;
@@ -13,7 +21,7 @@ regexMatch = function(pattern, string) {
 
 regexCheck = function(pattern, example) {
   var res, result;
-  res = regexExec(pattern, example.text);
+  res = regexMatch(pattern, example.text);
   result = false;
   if (res === null) {
     if (example.answer === null) result = true;

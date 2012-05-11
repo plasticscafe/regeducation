@@ -1,3 +1,9 @@
+regexTest = (pattern, string) ->
+  pt = pattern.match(/^\/(.*)\/(.*)$/)
+  return null if pt is null
+  re = new RegExp pt[1], pt[2]
+  re.test string
+
 regexMatch = (pattern, string) -> 
   pt = pattern.match(/^\/(.*)\/(.*)$/)
   return null if pt is null
@@ -8,7 +14,7 @@ regexMatch = (pattern, string) ->
   res
 
 regexCheck = (pattern, example) ->
-  res = regexExec pattern, example.text
+  res = regexMatch pattern, example.text
   result = false
   if res == null
     result = true if example.answer == null

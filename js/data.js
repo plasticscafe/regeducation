@@ -8,10 +8,10 @@ data = [
     example: [
       {
         text: 'abcabc',
-        answer: 'abc'
+        answer: ['abc']
       }, {
         text: 'aaaabc',
-        answer: 'abc'
+        answer: ['abc']
       }, {
         text: 'aaabbb',
         answer: null
@@ -24,10 +24,10 @@ data = [
     example: [
       {
         text: 'abcabc',
-        answer: 'abc,abc'
+        answer: ['abc', 'abc']
       }, {
         text: 'aaaabc',
-        answer: 'abc'
+        answer: ['abc']
       }, {
         text: 'aaabbb',
         answer: null

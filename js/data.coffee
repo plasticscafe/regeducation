@@ -4,8 +4,8 @@ data = [{
   description: 'test 1st'
   pattern:'/abc/'
   example:[
-    { text: 'abcabc', answer: 'abc' }
-    { text: 'aaaabc', answer: 'abc' }
+    { text: 'abcabc', answer: ['abc'] }
+    { text: 'aaaabc', answer: ['abc'] }
     { text: 'aaabbb', answer: null  }
   ]
   },{
@@ -13,8 +13,8 @@ data = [{
   description: 'test 2nd'
   pattern:'/abc/g'
   example:[
-    { text: 'abcabc', answer: 'abc,abc' }
-    { text: 'aaaabc', answer: 'abc' }
+    { text: 'abcabc', answer: ['abc','abc'] }
+    { text: 'aaaabc', answer: ['abc'] }
     { text: 'aaabbb', answer: null  }
   ]
 }]
