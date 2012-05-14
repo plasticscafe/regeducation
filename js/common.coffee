@@ -13,6 +13,13 @@ regexMatch = (pattern, string) ->
   return [res[0]] if typeof res[1] == 'undefined'
   res
 
+regexReplace = (pattern, string) ->
+  pt = pattern.match(/^\/(.*)\/(.*)\/(.*)$/)
+  return null if pt is null
+  re = new RegExp pt[1], pt[3]
+  res = string.replace(re, pt[2])
+  res
+
 regexCheck = (pattern, example) ->
   res = regexMatch pattern, example.text
   result = false
