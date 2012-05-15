@@ -20,6 +20,16 @@ regexReplace = (pattern, string) ->
   res = string.replace(re, pt[2])
   res
 
+regexExec = (pattern, string) ->
+  pt = pattern.match(/^([^\/]*)(\/.*)$/)
+  return null if pt is null
+  if pt[1] == 'm'
+    regexMatch pt[2], string
+  else if pt[1] == 's'
+    regexReplace pt[2], string
+  else 
+    regexTest pt[2], string
+
 regexCheck = (pattern, example) ->
   res = regexMatch pattern, example.text
   result = false
