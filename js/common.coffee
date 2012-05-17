@@ -1,36 +1,44 @@
-regexTest = (pattern, string) ->
-  pt = pattern.match(/^\/(.*)\/(.*)$/)
-  return null if pt is null
-  re = new RegExp pt[1], pt[2]
-  re.test string
+class Regex
+  constructor: ->
+    true
+  
+  test: (pattern, string) ->
+    pt = pattern.match(/^\/(.*)\/(.*)$/)
+    return null if pt is null
+    re = new RegExp pt[1], pt[2]
+    re.test string
 
-regexMatch = (pattern, string) -> 
-  pt = pattern.match(/^\/(.*)\/(.*)$/)
-  return null if pt is null
-  re = new RegExp pt[1], pt[2]
-  res = string.match(re)
-  return res if res == null || res.length == 0
-  return [res[0]] if typeof res[1] == 'undefined'
-  res
+  match: (pattern, string) -> 
+    pt = pattern.match(/^\/(.*)\/(.*)$/)
+    return null if pt is null
+    re = new RegExp pt[1], pt[2]
+    res = string.match(re)
+    return res if res == null || res.length == 0
+    return [res[0]] if typeof res[1] == 'undefined'
+    res
 
-regexReplace = (pattern, string) ->
-  pt = pattern.match(/^\/(.*)\/(.*)\/(.*)$/)
-  return null if pt is null
-  re = new RegExp pt[1], pt[3]
-  res = string.replace(re, pt[2])
-  res
+  replace: (pattern, string) ->
+    pt = pattern.match(/^\/(.*)\/(.*)\/(.*)$/)
+    return null if pt is null
+    re = new RegExp pt[1], pt[3]
+    res = string.replace(re, pt[2])
+    res
 
-regexExec = (pattern, string) ->
-  pt = pattern.match(/^([^\/]*)(\/.*)$/)
-  return null if pt is null
-  if pt[1] == 'm'
-    regexMatch pt[2], string
-  else if pt[1] == 's'
-    regexReplace pt[2], string
-  else 
-    regexTest pt[2], string
+  exec: (pattern, string) ->
+    pt = pattern.match(/^([^\/]*)(\/.*)$/)
+    return null if pt is null
+    if pt[1] == 'm'
+      this.match pt[2], string
+    else if pt[1] == 's'
+      this.replace pt[2], string
+    else 
+      this.test pt[2], string
 
-regexCheck = (pattern, example) ->
+  check: (pattern, string, answer) ->
+    res = this.exec pattern, string
+    (res == answer)
+
+  ###
   res = regexMatch pattern, example.text
   result = false
   if res == null

@@ -4,28 +4,29 @@ fs = require 'fs'
 eval fs.readFileSync 'common.js', 'utf-8'
 
 describe 'regex test', ->
+  regex = new Regex
   describe 'method exists', ->
-    it 'regexTest exists',  ->
-      regexTest.should.ok
+    it 'Regex.test exists',  ->
+      regex.test.should.ok
   describe 'basic regex', ->
     it 'match', ->
-      regexTest('/abc/', 'abc1ABCabc').should.true
+      regex.test('/abc/', 'abc1ABCabc').should.true
     it 'no match', ->
-      regexTest('/abc/', 'aaa').should.false
+      regex.test('/abc/', 'aaa').should.false
   describe 'i option', ->
     it 'match', ->
-      regexTest('/abc/i', '1ABCbca').should.true
+      regex.test('/abc/i', '1ABCbca').should.true
     it 'no match', ->
-      regexTest('/abc/', '1ABCbca').should.false
+      regex.test('/abc/', '1ABCbca').should.false
   describe 'm option', ->
     it 'match', ->
-      regexTest('/abc$/m', 'ABCDE\nabc\n1234').should.true
+      regex.test('/abc$/m', 'ABCDE\nabc\n1234').should.true
     it 'no match', ->
-      regexTest('/abc$/', 'ABCDE\nabc\n1234').should.false
+      regex.test('/abc$/', 'ABCDE\nabc\n1234').should.false
   describe 'im option', ->
     it 'match', ->
-      regexTest('/abc$/im', 'qwer\nABC\n1234').should.true
+      regex.test('/abc$/im', 'qwer\nABC\n1234').should.true
     it 'no match without i', ->
-      regexTest('/abc$/m', 'qwer\nABC\n1234').should.false
+      regex.test('/abc$/m', 'qwer\nABC\n1234').should.false
     it 'no match without m', ->
-      regexTest('/abc$/i', 'qwer\nABC\n1234').should.false
+      regex.test('/abc$/i', 'qwer\nABC\n1234').should.false
