@@ -36,24 +36,19 @@ class Regex
 
   check: (pattern, string, answer) ->
     res = this.exec pattern, string
-    (res == answer)
+    this.is_equal res, answer
 
-  ###
-  res = regexMatch pattern, example.text
-  result = false
-  if res == null
-    result = true if example.answer == null
-  else 
-    result = itemCheck(res, example.answer)
-  return { result: result, res: res } 
+  is_equal: (a, b) ->
+    if typeof a == 'object' && a !=  null
+      return false if typeof b != 'object'
+      n = a.length - 1
+      for i in [0..n]
+        return false if a[i] != b[i]
+    else
+      return (a == b)
+    true
 
-itemCheck = (a, b) ->
-  return false if a.length != b.length 
-  num = a.lengthi - 1
-  for i in [0 .. num]
-    return false if a[i] != b[i] 
-  true 
-
+### Create Screen ###
 blockCreate = (data) ->
   doc = document
   content = doc.getElementById 'content'
