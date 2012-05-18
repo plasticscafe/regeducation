@@ -8,19 +8,19 @@ data = [
     example: [
       {
         text: 'abcabc',
-        answer: ['abc']
+        answer: true
       }, {
         text: 'aaaabc',
-        answer: ['abc']
+        answer: true
       }, {
         text: 'aaabbb',
-        answer: null
+        answer: false
       }
     ]
   }, {
     title: 'test2',
     description: 'test 2nd',
-    pattern: '/abc/g',
+    pattern: 'm/abc/g',
     example: [
       {
         text: 'abcabc',

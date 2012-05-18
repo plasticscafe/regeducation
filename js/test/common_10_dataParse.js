@@ -9,6 +9,8 @@ eval(fs.readFileSync('common.js', 'utf-8'));
 eval(fs.readFileSync('data.js', 'utf-8'));
 
 describe('data parse', function() {
+  var regex;
+  regex = new Regex;
   return it('loop execute', function() {
     var d, e, _i, _len, _results;
     _results = [];
@@ -20,10 +22,7 @@ describe('data parse', function() {
         _results2 = [];
         for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
           e = _ref[_j];
-          _results2.push(regexCheck(d.pattern, e).should.eql({
-            result: true,
-            res: e.answer
-          }));
+          _results2.push(regex.check(d.pattern, e.text, e.answer).should["true"]);
         }
         return _results2;
       })());

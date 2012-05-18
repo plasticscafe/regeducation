@@ -5,10 +5,9 @@ eval fs.readFileSync 'common.js', 'utf-8'
 eval fs.readFileSync 'data.js', 'utf-8'
 
 describe 'data parse', ->
+  regex = new Regex
   it 'loop execute', ->
     for d in data
       for e in d.example
-        regexCheck(d.pattern, e).should.eql(
-          result:true, res:e.answer
-        )
+        regex.check(d.pattern, e.text, e.answer).should.true
 
