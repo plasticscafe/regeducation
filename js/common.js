@@ -59,7 +59,7 @@ Regex = (function() {
   Regex.prototype.is_equal = function(a, b) {
     var i, n;
     if (typeof a === 'object' && a !== null) {
-      if (typeof b !== 'object') return false;
+      if (typeof b !== 'object' || a.length !== b.length) return false;
       n = a.length - 1;
       for (i = 0; 0 <= n ? i <= n : i >= n; 0 <= n ? i++ : i--) {
         if (a[i] !== b[i]) return false;

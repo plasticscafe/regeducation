@@ -41,7 +41,7 @@ class Regex
 
   is_equal: (a, b) ->
     if typeof a == 'object' && a !=  null
-      return false if typeof b != 'object'
+      return false if typeof b != 'object' || a.length != b.length
       n = a.length - 1
       for i in [0..n]
         return false if a[i] != b[i]
