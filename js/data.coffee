@@ -2,7 +2,7 @@
 data = [{
   title: 'test1'
   description: 'test 1st'
-  pattern:'/abc/'
+  pattern: '/abc/'
   example:[
     { text: 'abcabc', answer: true }
     { text: 'aaaabc', answer: true }

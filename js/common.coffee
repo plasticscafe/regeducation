@@ -36,7 +36,8 @@ class Regex
 
   check: (pattern, string, answer) ->
     res = this.exec pattern, string
-    this.is_equal res, answer
+    is_success: this.is_equal res, answer
+    result: res
 
   is_equal: (a, b) ->
     if typeof a == 'object' && a !=  null
@@ -55,7 +56,7 @@ blockCreate = (data) ->
   for d in data
     block = doc.createElement 'div'
     block.className = 'block' 
-
+  
     # title 
     title = doc.createElement 'h3'
     title.className = 'title'
@@ -134,24 +135,30 @@ blockCreate = (data) ->
 checkerClick = (e) ->
   examples = this.parentNode.previousSibling.childNodes
   pattern = this.previousSibling.value.replace /^\s+|\s+$/g, '' 
+  pattern_type = pattern.match /^([^\/]*)\/(.*)$/
+  match_type = ''
+  match_type = pattern_type[1] if 1 < pattern_type.length
   return false if pattern == '' || examples < 1 
   for n in examples[0].childNodes
     ex = n.childNodes
     if ex[0].tagName == 'TD' || ex[0].tagName == 'td'
       answer = ex[1].textContent
-      if answer == 'null'
-        answer = null 
-      else
-        answer = answer.split ','
-      res = regexCheck pattern,
-        text: ex[0].textContent
-        answer: answer 
-      if res.result
+        
+      answer = null if answer == 'null'
+      answer  = true if answer == 'true'
+      answer  = false if answer == 'false'
+      answer = answer.split ',' if match_type == 'm' && answer 
+      console.log answer
+
+      regex = new Regex
+      res = regex.check pattern, ex[0].textContent, answer 
+      console.log res
+      if res.is_success
         n.className = 'success'
-        ex[2].textContent = '○: ' + res.res
+        ex[2].textContent = '○: ' + res.result
       else
         n.className = 'error'
-        ex[2].textContent = '☓: ' + res.res
+        ex[2].textContent = '☓: ' + res.result
 
 if typeof document != 'undefined' 
   document.addEventListener 'DOMContentLoaded', (e) ->

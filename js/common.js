@@ -50,7 +50,10 @@ Regex = (function() {
   Regex.prototype.check = function(pattern, string, answer) {
     var res;
     res = this.exec(pattern, string);
-    return this.is_equal(res, answer);
+    return {
+      is_success: this.is_equal(res, answer),
+      result: res
+    };
   };
 
   Regex.prototype.is_equal = function(a, b) {
@@ -145,9 +148,12 @@ blockCreate = function(data) {
 };
 
 checkerClick = function(e) {
-  var answer, ex, examples, n, pattern, res, _i, _len, _ref, _results;
+  var answer, ex, examples, match_type, n, pattern, pattern_type, regex, res, _i, _len, _ref, _results;
   examples = this.parentNode.previousSibling.childNodes;
   pattern = this.previousSibling.value.replace(/^\s+|\s+$/g, '');
+  pattern_type = pattern.match(/^([^\/]*)\/(.*)$/);
+  match_type = '';
+  if (1 < pattern_type.length) match_type = pattern_type[1];
   if (pattern === '' || examples < 1) return false;
   _ref = examples[0].childNodes;
   _results = [];
@@ -156,21 +162,20 @@ checkerClick = function(e) {
     ex = n.childNodes;
     if (ex[0].tagName === 'TD' || ex[0].tagName === 'td') {
       answer = ex[1].textContent;
-      if (answer === 'null') {
-        answer = null;
-      } else {
-        answer = answer.split(',');
-      }
-      res = regexCheck(pattern, {
-        text: ex[0].textContent,
-        answer: answer
-      });
-      if (res.result) {
+      if (answer === 'null') answer = null;
+      if (answer === 'true') answer = true;
+      if (answer === 'false') answer = false;
+      if (match_type === 'm' && answer) answer = answer.split(',');
+      console.log(answer);
+      regex = new Regex;
+      res = regex.check(pattern, ex[0].textContent, answer);
+      console.log(res);
+      if (res.is_success) {
         n.className = 'success';
-        _results.push(ex[2].textContent = '○: ' + res.res);
+        _results.push(ex[2].textContent = '○: ' + res.result);
       } else {
         n.className = 'error';
-        _results.push(ex[2].textContent = '☓: ' + res.res);
+        _results.push(ex[2].textContent = '☓: ' + res.result);
       }
     } else {
       _results.push(void 0);
