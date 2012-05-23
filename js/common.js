@@ -164,6 +164,7 @@ checkerClick = function(e) {
   var answer, ex, examples, match_type, n, pattern, pattern_type, regex, res, _i, _len, _ref, _results;
   examples = this.parentNode.previousSibling.childNodes;
   pattern = this.previousSibling.value.replace(/^\s+|\s+$/g, '');
+  if (pattern === '') return false;
   pattern_type = pattern.match(/^([^\/]*)\/(.*)$/);
   match_type = '';
   if (1 < pattern_type.length) match_type = pattern_type[1];

@@ -146,6 +146,7 @@ toggleBlock = (e) ->
 checkerClick = (e) ->
   examples = this.parentNode.previousSibling.childNodes
   pattern = this.previousSibling.value.replace /^\s+|\s+$/g, '' 
+  return false if  pattern == ''
   pattern_type = pattern.match /^([^\/]*)\/(.*)$/
   match_type = ''
   match_type = pattern_type[1] if 1 < pattern_type.length
