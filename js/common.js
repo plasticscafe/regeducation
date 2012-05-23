@@ -1,4 +1,4 @@
-var Regex, blockCreate, checkerClick;
+var Regex, blockCreate, checkerClick, toggleBlock;
 
 Regex = (function() {
 
@@ -84,15 +84,17 @@ blockCreate = function(data) {
   _results = [];
   for (_i = 0, _len = data.length; _i < _len; _i++) {
     d = data[_i];
-    block = doc.createElement('div');
-    block.className = 'block';
     title = doc.createElement('h3');
     title.className = 'title';
     title.appendChild(doc.createTextNode(d.title));
+    title.addEventListener('click', toggleBlock);
     result = doc.createElement('span');
     result.className = 'result unfinish';
     title.appendChild(result);
-    block.appendChild(title);
+    content.appendChild(title);
+    block = doc.createElement('div');
+    block.className = 'block';
+    block.style.display = 'none';
     description = doc.createElement('p');
     description.className = 'description';
     description.appendChild(doc.createTextNode(d.description));
@@ -147,6 +149,17 @@ blockCreate = function(data) {
   return _results;
 };
 
+toggleBlock = function(e) {
+  var b, block, blocks, _i, _len;
+  block = this.nextSibling;
+  blocks = document.getElementsByClassName('block');
+  for (_i = 0, _len = blocks.length; _i < _len; _i++) {
+    b = blocks[_i];
+    if (b !== block) b.style.display = 'none';
+  }
+  if (block.style.display === 'none') return block.style.display = 'block';
+};
+
 checkerClick = function(e) {
   var answer, ex, examples, match_type, n, pattern, pattern_type, regex, res, _i, _len, _ref, _results;
   examples = this.parentNode.previousSibling.childNodes;
@@ -169,7 +182,6 @@ checkerClick = function(e) {
       console.log(answer);
       regex = new Regex;
       res = regex.check(pattern, ex[0].textContent, answer);
-      console.log(res);
       if (res.is_success) {
         n.className = 'success';
         _results.push(ex[2].textContent = '○: ' + res.result);

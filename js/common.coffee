@@ -54,18 +54,21 @@ blockCreate = (data) ->
   doc = document
   content = doc.getElementById 'content'
   for d in data
-    block = doc.createElement 'div'
-    block.className = 'block' 
   
     # title 
     title = doc.createElement 'h3'
     title.className = 'title'
     title.appendChild doc.createTextNode(d.title)
+    title.addEventListener 'click', toggleBlock
     
     result = doc.createElement 'span'
     result.className = 'result unfinish'
     title.appendChild result 
-    block.appendChild title
+    content.appendChild title
+
+    block = doc.createElement 'div'
+    block.className = 'block' 
+    block.style.display = 'none'
 
     # description 
     description = doc.createElement 'p'
@@ -132,6 +135,14 @@ blockCreate = (data) ->
     block.appendChild checker
     content.appendChild block
 
+# Event Action
+toggleBlock = (e) ->
+  block = this.nextSibling
+  blocks = document.getElementsByClassName 'block'
+  for b in blocks
+    b.style.display = 'none' if b != block
+  block.style.display = 'block' if block.style.display == 'none'
+
 checkerClick = (e) ->
   examples = this.parentNode.previousSibling.childNodes
   pattern = this.previousSibling.value.replace /^\s+|\s+$/g, '' 
@@ -152,7 +163,6 @@ checkerClick = (e) ->
 
       regex = new Regex
       res = regex.check pattern, ex[0].textContent, answer 
-      console.log res
       if res.is_success
         n.className = 'success'
         ex[2].textContent = '○: ' + res.result
