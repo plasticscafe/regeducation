@@ -152,6 +152,7 @@ checkerClick = (e) ->
   match_type = ''
   match_type = pattern_type[1] if 1 < pattern_type.length
   return false if pattern == '' || examples < 1 
+  block_result = true
   for n in examples[0].childNodes
     ex = n.childNodes
     if ex[0].tagName == 'TD' || ex[0].tagName == 'td'
@@ -161,7 +162,6 @@ checkerClick = (e) ->
       answer  = true if answer == 'true'
       answer  = false if answer == 'false'
       answer = answer.split ',' if match_type == 'm' && answer 
-      console.log answer
 
       regex = new Regex
       res = regex.check pattern, ex[0].textContent, answer 
@@ -169,8 +169,20 @@ checkerClick = (e) ->
         n.className = 'success'
         ex[2].textContent = '○: ' + res.result
       else
+        block_result = false
         n.className = 'error'
         ex[2].textContent = '☓: ' + res.result
+  # go to next stage
+  if block_result && !this.nextSibling
+    inputs = document.createElement 'input'
+    inputs.setAttribute 'type', 'button'
+    inputs.setAttribute 'value', 'go to next stage'
+    inputs.className = 'next_btn'
+    inputs.addEventListener 'click', nextClick
+    this.parentNode.appendChild inputs
+
+nextClick = (e)->
+  alert 'next stage'
 
 if typeof document != 'undefined' 
   document.addEventListener 'DOMContentLoaded', (e) ->

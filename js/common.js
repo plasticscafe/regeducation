@@ -1,4 +1,4 @@
-var Regex, blockCreate, checkerClick, toggleBlock;
+var Regex, blockCreate, checkerClick, nextClick, toggleBlock;
 
 Regex = (function() {
 
@@ -163,7 +163,7 @@ toggleBlock = function(e) {
 };
 
 checkerClick = function(e) {
-  var answer, ex, examples, match_type, n, pattern, pattern_type, regex, res, _i, _len, _ref, _results;
+  var answer, block_result, ex, examples, inputs, match_type, n, pattern, pattern_type, regex, res, _i, _len, _ref;
   examples = this.parentNode.previousSibling.childNodes;
   pattern = this.previousSibling.value.replace(/^\s+|\s+$/g, '');
   if (pattern === '') return false;
@@ -171,8 +171,8 @@ checkerClick = function(e) {
   match_type = '';
   if (1 < pattern_type.length) match_type = pattern_type[1];
   if (pattern === '' || examples < 1) return false;
+  block_result = true;
   _ref = examples[0].childNodes;
-  _results = [];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     n = _ref[_i];
     ex = n.childNodes;
@@ -182,21 +182,30 @@ checkerClick = function(e) {
       if (answer === 'true') answer = true;
       if (answer === 'false') answer = false;
       if (match_type === 'm' && answer) answer = answer.split(',');
-      console.log(answer);
       regex = new Regex;
       res = regex.check(pattern, ex[0].textContent, answer);
       if (res.is_success) {
         n.className = 'success';
-        _results.push(ex[2].textContent = '○: ' + res.result);
+        ex[2].textContent = '○: ' + res.result;
       } else {
+        block_result = false;
         n.className = 'error';
-        _results.push(ex[2].textContent = '☓: ' + res.result);
+        ex[2].textContent = '☓: ' + res.result;
       }
-    } else {
-      _results.push(void 0);
     }
   }
-  return _results;
+  if (block_result && !this.nextSibling) {
+    inputs = document.createElement('input');
+    inputs.setAttribute('type', 'button');
+    inputs.setAttribute('value', 'go to next stage');
+    inputs.className = 'next_btn';
+    inputs.addEventListener('click', nextClick);
+    return this.parentNode.appendChild(inputs);
+  }
+};
+
+nextClick = function(e) {
+  return alert('next stage');
 };
 
 if (typeof document !== 'undefined') {
