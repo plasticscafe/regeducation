@@ -78,12 +78,14 @@ Regex = (function() {
 */
 
 blockCreate = function(data) {
-  var block, checker, content, d, description, doc, e, examples, inputs, result, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
+  var block, checker, content, count, d, description, doc, e, examples, inputs, result, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
   doc = document;
   content = doc.getElementById('content');
+  count = 0;
   _results = [];
   for (_i = 0, _len = data.length; _i < _len; _i++) {
     d = data[_i];
+    count++;
     title = doc.createElement('h3');
     title.className = 'title';
     title.appendChild(doc.createTextNode(d.title));
@@ -94,7 +96,7 @@ blockCreate = function(data) {
     content.appendChild(title);
     block = doc.createElement('div');
     block.className = 'block';
-    block.style.display = 'none';
+    if (1 < count) block.style.display = 'none';
     description = doc.createElement('p');
     description.className = 'description';
     description.appendChild(doc.createTextNode(d.description));

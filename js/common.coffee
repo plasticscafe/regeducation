@@ -53,8 +53,9 @@ class Regex
 blockCreate = (data) ->
   doc = document
   content = doc.getElementById 'content'
+  count = 0
   for d in data
-  
+    count++
     # title 
     title = doc.createElement 'h3'
     title.className = 'title'
@@ -68,7 +69,7 @@ blockCreate = (data) ->
 
     block = doc.createElement 'div'
     block.className = 'block' 
-    block.style.display = 'none'
+    block.style.display = 'none' if 1 < count  
 
     # description 
     description = doc.createElement 'p'
