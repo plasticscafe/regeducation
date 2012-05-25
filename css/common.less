@@ -1,3 +1,39 @@
 body {
  font-size:12px; 
 }
+div#header, div#content {
+  width:600px;
+  margin:0px auto;
+}
+h3.title {
+  padding: 5px;
+  margin:10px 0px 0px 0px;
+  border:1px solid silver;
+  cursor:pointer;
+}
+div.block {
+  margin:0px;
+  padding:5px;
+  border-bottom:1px solid silver;
+  border-right:1px solid silver;
+  border-right:1px solid silver;
+  p.description {
+    border: 1px dotted #ddd;
+    padding: 5px;
+  }
+  table.examples {
+    width:100%;
+    .success { color: green }
+    .error { color: red; font-weight:bold; }
+    th { text-align:left; padding:3px; border-bottom:1px dashed silver; }
+    td { text-align:left; padding:3px; border-bottom:1px dotted silver; }
+  }
+  input.pattern {
+    width:450px;
+    padding:2px;
+  }
+  input.checker {
+    padding:5px 10px;
+    margin-left:10px;
+  }
+}

@@ -1,3 +1,53 @@
 body {
   font-size: 12px;
 }
+div#header,
+div#content {
+  width: 600px;
+  margin: 0px auto;
+}
+h3.title {
+  padding: 5px;
+  margin: 10px 0px 0px 0px;
+  border: 1px solid silver;
+  cursor: pointer;
+}
+div.block {
+  margin: 0px;
+  padding: 5px;
+  border-bottom: 1px solid silver;
+  border-right: 1px solid silver;
+  border-right: 1px solid silver;
+}
+div.block p.description {
+  border: 1px dotted #ddd;
+  padding: 5px;
+}
+div.block table.examples {
+  width: 100%;
+}
+div.block table.examples .success {
+  color: #008000;
+}
+div.block table.examples .error {
+  color: red;
+  font-weight: bold;
+}
+div.block table.examples th {
+  text-align: left;
+  padding: 3px;
+  border-bottom: 1px dashed silver;
+}
+div.block table.examples td {
+  text-align: left;
+  padding: 3px;
+  border-bottom: 1px dotted silver;
+}
+div.block input.pattern {
+  width: 450px;
+  padding: 2px;
+}
+div.block input.checker {
+  padding: 5px 10px;
+  margin-left: 10px;
+}
