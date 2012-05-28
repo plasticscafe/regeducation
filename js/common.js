@@ -1,4 +1,4 @@
-var Regex, blockCreate, checkerClick, nextClick, toggleBlock;
+var Regex, blockCreate, checkerClick, nextClick, openBlocks, toggleBlock;
 
 Regex = (function() {
 
@@ -152,8 +152,11 @@ blockCreate = function(data) {
 };
 
 toggleBlock = function(e) {
-  var b, block, blocks, _i, _len;
-  block = this.nextSibling;
+  return openBlocks(this.nextSibling);
+};
+
+openBlocks = function(block) {
+  var b, blocks, _i, _len;
   blocks = document.getElementsByClassName('block');
   for (_i = 0, _len = blocks.length; _i < _len; _i++) {
     b = blocks[_i];
@@ -163,7 +166,7 @@ toggleBlock = function(e) {
 };
 
 checkerClick = function(e) {
-  var answer, block_result, ex, examples, inputs, match_type, n, pattern, pattern_type, regex, res, _i, _len, _ref;
+  var answer, block_result, ex, examples, inputs, match_type, n, pass_tag, pattern, pattern_type, regex, res, title, _i, _len, _ref;
   examples = this.parentNode.previousSibling.childNodes;
   pattern = this.previousSibling.value.replace(/^\s+|\s+$/g, '');
   if (pattern === '') return false;
@@ -200,12 +203,17 @@ checkerClick = function(e) {
     inputs.setAttribute('value', 'go to next stage');
     inputs.className = 'next_btn';
     inputs.addEventListener('click', nextClick);
-    return this.parentNode.appendChild(inputs);
+    this.parentNode.appendChild(inputs);
+    title = this.parentNode.parentNode.previousSibling;
+    pass_tag = document.createElement('span');
+    pass_tag.appendChild(document.createTextNode('pass this stage!'));
+    pass_tag.className = 'pass';
+    return title.appendChild(pass_tag);
   }
 };
 
 nextClick = function(e) {
-  return alert('next stage');
+  return openBlocks(this.parentNode.parentNode.nextSibling.nextSibling);
 };
 
 if (typeof document !== 'undefined') {

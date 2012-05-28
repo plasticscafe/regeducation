@@ -138,7 +138,9 @@ blockCreate = (data) ->
 
 # Event Action
 toggleBlock = (e) ->
-  block = this.nextSibling
+  openBlocks(this.nextSibling)
+
+openBlocks = (block) ->
   blocks = document.getElementsByClassName 'block'
   for b in blocks
     b.style.display = 'none' if b != block
@@ -180,9 +182,14 @@ checkerClick = (e) ->
     inputs.className = 'next_btn'
     inputs.addEventListener 'click', nextClick
     this.parentNode.appendChild inputs
+    title = this.parentNode.parentNode.previousSibling
+    pass_tag = document.createElement 'span'
+    pass_tag.appendChild(document.createTextNode 'pass this stage!')
+    pass_tag.className = 'pass'
+    title.appendChild pass_tag
 
 nextClick = (e)->
-  alert 'next stage'
+  openBlocks(this.parentNode.parentNode.nextSibling.nextSibling)
 
 if typeof document != 'undefined' 
   document.addEventListener 'DOMContentLoaded', (e) ->
