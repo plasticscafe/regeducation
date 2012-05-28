@@ -12,6 +12,12 @@ h3.title {
   border: 1px solid silver;
   cursor: pointer;
 }
+h3.title span.pass {
+  color: green;
+  font-weight: bold;
+  font-size: 12px;
+  float: right;
+}
 div.block {
   margin: 0px;
   padding: 5px;
