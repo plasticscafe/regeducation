@@ -23,7 +23,7 @@ div.block {
   padding: 5px;
   border-bottom: 1px solid silver;
   border-right: 1px solid silver;
-  border-right: 1px solid silver;
+  border-left: 1px solid silver;
 }
 div.block p.description {
   border: 1px dotted #ddd;
