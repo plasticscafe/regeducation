@@ -175,18 +175,21 @@ checkerClick = (e) ->
         n.className = 'error'
         ex[2].textContent = '☓: ' + res.result
   # go to next stage
-  if block_result && !this.nextSibling
+  return if !block_result 
+  title = this.parentNode.parentNode.previousSibling
+  pass_tag = document.createElement 'span'
+  pass_tag.appendChild(document.createTextNode 'pass this stage!')
+  pass_tag.className = 'pass'
+  title.appendChild pass_tag
+
+  next_title = this.parentNode.parentNode.nextSibling
+  if !this.nextSibling && next_title != null && next_title.className == 'title' 
     inputs = document.createElement 'input'
     inputs.setAttribute 'type', 'button'
     inputs.setAttribute 'value', 'go to next stage'
     inputs.className = 'next_btn'
     inputs.addEventListener 'click', nextClick
     this.parentNode.appendChild inputs
-    title = this.parentNode.parentNode.previousSibling
-    pass_tag = document.createElement 'span'
-    pass_tag.appendChild(document.createTextNode 'pass this stage!')
-    pass_tag.className = 'pass'
-    title.appendChild pass_tag
 
 nextClick = (e)->
   openBlocks(this.parentNode.parentNode.nextSibling.nextSibling)

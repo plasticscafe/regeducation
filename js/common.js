@@ -166,7 +166,7 @@ openBlocks = function(block) {
 };
 
 checkerClick = function(e) {
-  var answer, block_result, ex, examples, inputs, match_type, n, pass_tag, pattern, pattern_type, regex, res, title, _i, _len, _ref;
+  var answer, block_result, ex, examples, inputs, match_type, n, next_title, pass_tag, pattern, pattern_type, regex, res, title, _i, _len, _ref;
   examples = this.parentNode.previousSibling.childNodes;
   pattern = this.previousSibling.value.replace(/^\s+|\s+$/g, '');
   if (pattern === '') return false;
@@ -197,18 +197,20 @@ checkerClick = function(e) {
       }
     }
   }
-  if (block_result && !this.nextSibling) {
+  if (!block_result) return;
+  title = this.parentNode.parentNode.previousSibling;
+  pass_tag = document.createElement('span');
+  pass_tag.appendChild(document.createTextNode('pass this stage!'));
+  pass_tag.className = 'pass';
+  title.appendChild(pass_tag);
+  next_title = this.parentNode.parentNode.nextSibling;
+  if (!this.nextSibling && next_title !== null && next_title.className === 'title') {
     inputs = document.createElement('input');
     inputs.setAttribute('type', 'button');
     inputs.setAttribute('value', 'go to next stage');
     inputs.className = 'next_btn';
     inputs.addEventListener('click', nextClick);
-    this.parentNode.appendChild(inputs);
-    title = this.parentNode.parentNode.previousSibling;
-    pass_tag = document.createElement('span');
-    pass_tag.appendChild(document.createTextNode('pass this stage!'));
-    pass_tag.className = 'pass';
-    return title.appendChild(pass_tag);
+    return this.parentNode.appendChild(inputs);
   }
 };
 
