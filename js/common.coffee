@@ -49,18 +49,32 @@ class Regex
       return (a == b)
     true
 
+### Using WebStorage ###
+# score management
+setScore = (item, score) ->
+  scores = JSON.parse( localStorage.getItem 'regeducation.scores' )
+  res = {} if typeof res == 'Object'; 
+  scores[item] = score 
+  localStorage.setItem('regeducation.scores', JSON.stringify scores)
+
+getScore = ->
+  res = JSON.parse( localStorage.getItem 'regeducation.scores' )
+  res = {} if typeof res == 'Object'; 
+  res
+
 ### Create Screen ###
 blockCreate = (data) ->
+  scores = getScore()
   doc = document
   content = doc.getElementById 'content'
-  count = 0
+  opened = true
   for d in data
-    count++
     # title 
     title = doc.createElement 'h3'
     title.className = 'title'
     title.appendChild doc.createTextNode(d.title)
     title.addEventListener 'click', toggleBlock
+    passDisplay title if scores[d.id]
     
     result = doc.createElement 'span'
     result.className = 'result unfinish'
@@ -69,7 +83,10 @@ blockCreate = (data) ->
 
     block = doc.createElement 'div'
     block.className = 'block' 
-    block.style.display = 'none' if 1 < count  
+    if !opened || scores[d.id]
+      block.style.display = 'none' 
+    else
+      opened = false
 
     # description 
     description = doc.createElement 'p'
@@ -129,6 +146,7 @@ blockCreate = (data) ->
     inputs = doc.createElement 'input'
     inputs.setAttribute 'type', 'button'
     inputs.setAttribute 'value', 'check'
+    inputs.setAttribute 'regex_id', d.id
     inputs.className = 'checker'
     inputs.addEventListener 'click', checkerClick
     checker.appendChild inputs
@@ -176,12 +194,8 @@ checkerClick = (e) ->
         ex[2].textContent = '☓: ' + res.result
   # go to next stage
   return if !block_result 
-  title = this.parentNode.parentNode.previousSibling
-  pass_tag = document.createElement 'span'
-  pass_tag.appendChild(document.createTextNode 'pass this stage!')
-  pass_tag.className = 'pass'
-  title.appendChild pass_tag
-
+  passDisplay(this.parentNode.parentNode.previousSibling)
+  setScore this.getAttribute('regex_id'), true
   next_title = this.parentNode.parentNode.nextSibling
   if !this.nextSibling && next_title != null && next_title.className == 'title' 
     inputs = document.createElement 'input'
@@ -193,6 +207,12 @@ checkerClick = (e) ->
 
 nextClick = (e)->
   openBlocks(this.parentNode.parentNode.nextSibling.nextSibling)
+
+passDisplay = (title) ->
+  pass_tag = document.createElement 'span'
+  pass_tag.appendChild(document.createTextNode 'pass this stage!')
+  pass_tag.className = 'pass'
+  title.appendChild pass_tag
 
 if typeof document != 'undefined' 
   document.addEventListener 'DOMContentLoaded', (e) ->

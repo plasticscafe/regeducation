@@ -1,4 +1,4 @@
-var Regex, blockCreate, checkerClick, nextClick, openBlocks, toggleBlock;
+var Regex, blockCreate, checkerClick, getScore, nextClick, openBlocks, passDisplay, setScore, toggleBlock;
 
 Regex = (function() {
 
@@ -74,29 +74,52 @@ Regex = (function() {
 
 })();
 
+/* Using WebStorage
+*/
+
+setScore = function(item, score) {
+  var res, scores;
+  scores = JSON.parse(localStorage.getItem('regeducation.scores'));
+  if (typeof res === 'Object') res = {};
+  scores[item] = score;
+  return localStorage.setItem('regeducation.scores', JSON.stringify(scores));
+};
+
+getScore = function() {
+  var res;
+  res = JSON.parse(localStorage.getItem('regeducation.scores'));
+  if (typeof res === 'Object') res = {};
+  return res;
+};
+
 /* Create Screen
 */
 
 blockCreate = function(data) {
-  var block, checker, content, count, d, description, doc, e, examples, inputs, result, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
+  var block, checker, content, d, description, doc, e, examples, inputs, opened, result, scores, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
+  scores = getScore();
   doc = document;
   content = doc.getElementById('content');
-  count = 0;
+  opened = true;
   _results = [];
   for (_i = 0, _len = data.length; _i < _len; _i++) {
     d = data[_i];
-    count++;
     title = doc.createElement('h3');
     title.className = 'title';
     title.appendChild(doc.createTextNode(d.title));
     title.addEventListener('click', toggleBlock);
+    if (scores[d.id]) passDisplay(title);
     result = doc.createElement('span');
     result.className = 'result unfinish';
     title.appendChild(result);
     content.appendChild(title);
     block = doc.createElement('div');
     block.className = 'block';
-    if (1 < count) block.style.display = 'none';
+    if (!opened || scores[d.id]) {
+      block.style.display = 'none';
+    } else {
+      opened = false;
+    }
     description = doc.createElement('p');
     description.className = 'description';
     description.appendChild(doc.createTextNode(d.description));
@@ -142,6 +165,7 @@ blockCreate = function(data) {
     inputs = doc.createElement('input');
     inputs.setAttribute('type', 'button');
     inputs.setAttribute('value', 'check');
+    inputs.setAttribute('regex_id', d.id);
     inputs.className = 'checker';
     inputs.addEventListener('click', checkerClick);
     checker.appendChild(inputs);
@@ -166,7 +190,7 @@ openBlocks = function(block) {
 };
 
 checkerClick = function(e) {
-  var answer, block_result, ex, examples, inputs, match_type, n, next_title, pass_tag, pattern, pattern_type, regex, res, title, _i, _len, _ref;
+  var answer, block_result, ex, examples, inputs, match_type, n, next_title, pattern, pattern_type, regex, res, _i, _len, _ref;
   examples = this.parentNode.previousSibling.childNodes;
   pattern = this.previousSibling.value.replace(/^\s+|\s+$/g, '');
   if (pattern === '') return false;
@@ -198,11 +222,8 @@ checkerClick = function(e) {
     }
   }
   if (!block_result) return;
-  title = this.parentNode.parentNode.previousSibling;
-  pass_tag = document.createElement('span');
-  pass_tag.appendChild(document.createTextNode('pass this stage!'));
-  pass_tag.className = 'pass';
-  title.appendChild(pass_tag);
+  passDisplay(this.parentNode.parentNode.previousSibling);
+  setScore(this.getAttribute('regex_id'), true);
   next_title = this.parentNode.parentNode.nextSibling;
   if (!this.nextSibling && next_title !== null && next_title.className === 'title') {
     inputs = document.createElement('input');
@@ -216,6 +237,14 @@ checkerClick = function(e) {
 
 nextClick = function(e) {
   return openBlocks(this.parentNode.parentNode.nextSibling.nextSibling);
+};
+
+passDisplay = function(title) {
+  var pass_tag;
+  pass_tag = document.createElement('span');
+  pass_tag.appendChild(document.createTextNode('pass this stage!'));
+  pass_tag.className = 'pass';
+  return title.appendChild(pass_tag);
 };
 
 if (typeof document !== 'undefined') {
