@@ -209,6 +209,7 @@ nextClick = (e)->
   openBlocks(this.parentNode.parentNode.nextSibling.nextSibling)
 
 passDisplay = (title) ->
+  return if 0 < title.getElementsByClassName('pass').length
   pass_tag = document.createElement 'span'
   pass_tag.appendChild(document.createTextNode 'pass this stage!')
   pass_tag.className = 'pass'
