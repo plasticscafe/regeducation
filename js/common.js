@@ -96,10 +96,24 @@ getScore = function() {
 */
 
 blockCreate = function(data) {
-  var block, checker, content, d, description, doc, e, examples, inputs, opened, result, scores, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
+  var block, checker, clear_btn, content, d, description, doc, e, examples, has_scores, inputs, opened, result, score, score_area, scores, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
   scores = getScore();
+  has_scores = false;
+  for (score in scores) {
+    has_scores = true;
+    break;
+  }
   doc = document;
   content = doc.getElementById('content');
+  if (has_scores) {
+    score_area = doc.createElement('div');
+    score_area.className = 'score';
+    clear_btn = doc.createElement('input');
+    clear_btn.setAttribute('type', 'button');
+    clear_btn.setAttribute('value', 'clear score');
+    score_area.appendChild(clear_btn);
+    content.appendChild(score_area);
+  }
   opened = true;
   _results = [];
   for (_i = 0, _len = data.length; _i < _len; _i++) {

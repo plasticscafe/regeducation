@@ -6,6 +6,13 @@ div#content {
   width: 600px;
   margin: 0px auto;
 }
+div.score {
+  padding: 5px 0px;
+  text-align: right;
+}
+div.score input {
+  width: 100px;
+}
 h3.title {
   padding: 5px;
   margin: 10px 0px 0px 0px;

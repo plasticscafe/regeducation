@@ -64,9 +64,25 @@ getScore = ->
 
 ### Create Screen ###
 blockCreate = (data) ->
+  # get scores in localStorage
   scores = getScore()
+  has_scores = false
+  for score of scores
+    has_scores = true
+    break 
+  ## create elements
   doc = document
   content = doc.getElementById 'content'
+  # clear score
+  if has_scores
+    score_area = doc.createElement 'div'
+    score_area.className = 'score'
+    clear_btn = doc.createElement 'input'
+    clear_btn.setAttribute 'type', 'button' 
+    clear_btn.setAttribute 'value', 'clear score' 
+    score_area.appendChild clear_btn 
+    content.appendChild score_area
+  # blocks
   opened = true
   for d in data
     # title 
