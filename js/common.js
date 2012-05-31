@@ -96,18 +96,25 @@ getScore = function() {
 */
 
 blockCreate = function(data) {
-  var block, checker, clear_btn, content, d, description, doc, e, examples, has_scores, inputs, opened, result, score, score_area, scores, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
+  var block, checker, clear_btn, content, d, description, doc, e, examples, inputs, opened, pass_scores, result, score, score_area, score_disp, score_label, scores, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
   scores = getScore();
-  has_scores = false;
+  pass_scores = 0;
   for (score in scores) {
-    has_scores = true;
-    break;
+    if (scores[score] === true) pass_scores += 1;
   }
   doc = document;
   content = doc.getElementById('content');
-  if (has_scores) {
+  if (0 < pass_scores) {
     score_area = doc.createElement('div');
     score_area.className = 'score';
+    score_label = doc.createElement('span');
+    score_label.appendChild(doc.createTextNode('scores: '));
+    score_label.className = 'label';
+    score_area.appendChild(score_label);
+    score_disp = doc.createElement('span');
+    score_disp.className = 'disp';
+    score_disp.appendChild(doc.createTextNode('pass ' + pass_scores + ' / all ' + data.length));
+    score_area.appendChild(score_disp);
     clear_btn = doc.createElement('input');
     clear_btn.setAttribute('type', 'button');
     clear_btn.setAttribute('value', 'clear score');

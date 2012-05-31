@@ -66,17 +66,27 @@ getScore = ->
 blockCreate = (data) ->
   # get scores in localStorage
   scores = getScore()
-  has_scores = false
+  pass_scores = 0
   for score of scores
-    has_scores = true
-    break 
+    pass_scores += 1 if scores[score] == true 
   ## create elements
   doc = document
   content = doc.getElementById 'content'
   # clear score
-  if has_scores
+  if 0 < pass_scores
     score_area = doc.createElement 'div'
     score_area.className = 'score'
+    score_label = doc.createElement 'span'
+    score_label.appendChild doc.createTextNode 'scores: '
+    score_label.className = 'label'
+    score_area.appendChild score_label
+
+    score_disp = doc.createElement 'span'
+    score_disp.className = 'disp'
+    score_disp.appendChild doc.createTextNode 'pass ' + pass_scores + 
+      ' / all ' + data.length
+    score_area.appendChild score_disp
+
     clear_btn = doc.createElement 'input'
     clear_btn.setAttribute 'type', 'button' 
     clear_btn.setAttribute 'value', 'clear score' 

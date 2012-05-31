@@ -10,6 +10,13 @@ div.score {
   padding: 5px 0px;
   text-align: right;
 }
+div.score span.disp {
+  margin: 3px 10px 3px 3px;
+}
+div.score span.label {
+  font-weight: bold;
+  margin: 3px 0px;
+}
 div.score input {
   width: 100px;
 }
