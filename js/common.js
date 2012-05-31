@@ -1,4 +1,4 @@
-var Regex, blockCreate, checkerClick, getScore, nextClick, openBlocks, passDisplay, setScore, toggleBlock;
+var Regex, blockCreate, checkerClick, clearScore, clearScores, getScore, nextClick, openBlocks, passDisplay, setScore, toggleBlock;
 
 Regex = (function() {
 
@@ -92,6 +92,10 @@ getScore = function() {
   return res;
 };
 
+clearScore = function() {
+  return localStorage.setItem('regeducation.scores', JSON.stringify({}));
+};
+
 /* Create Screen
 */
 
@@ -118,6 +122,7 @@ blockCreate = function(data) {
     clear_btn = doc.createElement('input');
     clear_btn.setAttribute('type', 'button');
     clear_btn.setAttribute('value', 'clear score');
+    clear_btn.addEventListener('click', clearScores);
     score_area.appendChild(clear_btn);
     content.appendChild(score_area);
   }
@@ -258,6 +263,13 @@ checkerClick = function(e) {
 
 nextClick = function(e) {
   return openBlocks(this.parentNode.parentNode.nextSibling.nextSibling);
+};
+
+clearScores = function(e) {
+  var score;
+  clearScore();
+  score = document.getElementsByClassName('score');
+  return score[0].style.display = 'none';
 };
 
 passDisplay = function(title) {

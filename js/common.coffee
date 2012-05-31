@@ -62,6 +62,9 @@ getScore = ->
   res = {} if typeof res == 'Object'; 
   res
 
+clearScore = ->
+  localStorage.setItem 'regeducation.scores', JSON.stringify {}
+
 ### Create Screen ###
 blockCreate = (data) ->
   # get scores in localStorage
@@ -90,6 +93,7 @@ blockCreate = (data) ->
     clear_btn = doc.createElement 'input'
     clear_btn.setAttribute 'type', 'button' 
     clear_btn.setAttribute 'value', 'clear score' 
+    clear_btn.addEventListener 'click', clearScores
     score_area.appendChild clear_btn 
     content.appendChild score_area
   # blocks
@@ -231,8 +235,13 @@ checkerClick = (e) ->
     inputs.addEventListener 'click', nextClick
     this.parentNode.appendChild inputs
 
-nextClick = (e)->
+nextClick = (e) ->
   openBlocks(this.parentNode.parentNode.nextSibling.nextSibling)
+
+clearScores = (e) ->
+  clearScore()
+  score = document.getElementsByClassName 'score'
+  score[0].style.display = 'none' 
 
 passDisplay = (title) ->
   return if 0 < title.getElementsByClassName('pass').length
