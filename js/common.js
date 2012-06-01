@@ -1,4 +1,4 @@
-var Regex, blockCreate, checkerClick, clearScore, clearScores, getScore, nextClick, openBlocks, passDisplay, setScore, toggleBlock;
+var Regex, blockCreate, checkerClick, clearScore, clearScores, getPassScores, getScore, nextClick, openBlocks, passDisplay, scoreDisplay, setScore, toggleBlock;
 
 Regex = (function() {
 
@@ -100,33 +100,12 @@ clearScore = function() {
 */
 
 blockCreate = function(data) {
-  var block, checker, clear_btn, content, d, description, doc, e, examples, inputs, opened, pass_scores, result, score, score_area, score_disp, score_label, scores, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
-  scores = getScore();
-  pass_scores = 0;
-  for (score in scores) {
-    if (scores[score] === true) pass_scores += 1;
-  }
+  var block, checker, content, d, description, doc, e, examples, inputs, opened, result, scores, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
   doc = document;
   content = doc.getElementById('content');
-  if (0 < pass_scores) {
-    score_area = doc.createElement('div');
-    score_area.className = 'score';
-    score_label = doc.createElement('span');
-    score_label.appendChild(doc.createTextNode('scores: '));
-    score_label.className = 'label';
-    score_area.appendChild(score_label);
-    score_disp = doc.createElement('span');
-    score_disp.className = 'disp';
-    score_disp.appendChild(doc.createTextNode('pass ' + pass_scores + ' / all ' + data.length));
-    score_area.appendChild(score_disp);
-    clear_btn = doc.createElement('input');
-    clear_btn.setAttribute('type', 'button');
-    clear_btn.setAttribute('value', 'clear score');
-    clear_btn.addEventListener('click', clearScores);
-    score_area.appendChild(clear_btn);
-    content.appendChild(score_area);
-  }
+  if (0 < getPassScores()) scoreDisplay(content, data);
   opened = true;
+  scores = getScore();
   _results = [];
   for (_i = 0, _len = data.length; _i < _len; _i++) {
     d = data[_i];
@@ -279,6 +258,37 @@ passDisplay = function(title) {
   pass_tag.appendChild(document.createTextNode('pass this stage!'));
   pass_tag.className = 'pass';
   return title.appendChild(pass_tag);
+};
+
+scoreDisplay = function(content, data) {
+  var clear_btn, pass_scores, score_area, score_disp, score_label;
+  pass_scores = getPassScores();
+  score_area = document.createElement('div');
+  score_area.className = 'score';
+  score_label = document.createElement('span');
+  score_label.appendChild(document.createTextNode('scores: '));
+  score_label.className = 'label';
+  score_area.appendChild(score_label);
+  score_disp = document.createElement('span');
+  score_disp.className = 'disp';
+  score_disp.appendChild(document.createTextNode('pass ' + pass_scores + ' / all ' + data.length));
+  score_area.appendChild(score_disp);
+  clear_btn = document.createElement('input');
+  clear_btn.setAttribute('type', 'button');
+  clear_btn.setAttribute('value', 'clear score');
+  clear_btn.addEventListener('click', clearScores);
+  score_area.appendChild(clear_btn);
+  return content.insertBefore(score_area, content.firstChild);
+};
+
+getPassScores = function() {
+  var pass_scores, score, scores;
+  scores = getScore();
+  pass_scores = 0;
+  for (score in scores) {
+    if (scores[score] === true) pass_scores += 1;
+  }
+  return pass_scores;
 };
 
 if (typeof document !== 'undefined') {

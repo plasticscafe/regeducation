@@ -66,38 +66,15 @@ clearScore = ->
   localStorage.setItem 'regeducation.scores', JSON.stringify {}
 
 ### Create Screen ###
-blockCreate = (data) ->
-  # get scores in localStorage
-  scores = getScore()
-  pass_scores = 0
-  for score of scores
-    pass_scores += 1 if scores[score] == true 
+blockCreate = (data) -> 
   ## create elements
   doc = document
   content = doc.getElementById 'content'
   # clear score
-  if 0 < pass_scores
-    score_area = doc.createElement 'div'
-    score_area.className = 'score'
-    score_label = doc.createElement 'span'
-    score_label.appendChild doc.createTextNode 'scores: '
-    score_label.className = 'label'
-    score_area.appendChild score_label
-
-    score_disp = doc.createElement 'span'
-    score_disp.className = 'disp'
-    score_disp.appendChild doc.createTextNode 'pass ' + pass_scores + 
-      ' / all ' + data.length
-    score_area.appendChild score_disp
-
-    clear_btn = doc.createElement 'input'
-    clear_btn.setAttribute 'type', 'button' 
-    clear_btn.setAttribute 'value', 'clear score' 
-    clear_btn.addEventListener 'click', clearScores
-    score_area.appendChild clear_btn 
-    content.appendChild score_area
+  scoreDisplay(content, data) if 0 < getPassScores()
   # blocks
   opened = true
+  scores = getScore()
   for d in data
     # title 
     title = doc.createElement 'h3'
@@ -249,6 +226,36 @@ passDisplay = (title) ->
   pass_tag.appendChild(document.createTextNode 'pass this stage!')
   pass_tag.className = 'pass'
   title.appendChild pass_tag
+
+scoreDisplay = (content, data) ->
+  pass_scores = getPassScores()
+  score_area = document.createElement 'div'
+  score_area.className = 'score'
+  score_label = document.createElement 'span'
+  score_label.appendChild document.createTextNode 'scores: '
+  score_label.className = 'label'
+  score_area.appendChild score_label
+
+  score_disp = document.createElement 'span'
+  score_disp.className = 'disp'
+  score_disp.appendChild document.createTextNode 'pass ' + pass_scores + 
+    ' / all ' + data.length
+  score_area.appendChild score_disp
+
+  clear_btn = document.createElement 'input'
+  clear_btn.setAttribute 'type', 'button' 
+  clear_btn.setAttribute 'value', 'clear score' 
+  clear_btn.addEventListener 'click', clearScores
+  score_area.appendChild clear_btn 
+  content.insertBefore score_area, content.firstChild
+ 
+getPassScores = ->
+  # get scores in localStorage
+  scores = getScore()
+  pass_scores = 0
+  for score of scores
+    pass_scores += 1 if scores[score] == true 
+  pass_scores
 
 if typeof document != 'undefined' 
   document.addEventListener 'DOMContentLoaded', (e) ->
