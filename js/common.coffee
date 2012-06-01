@@ -71,7 +71,7 @@ blockCreate = (data) ->
   doc = document
   content = doc.getElementById 'content'
   # clear score
-  scoreDisplay(content, data) if 0 < getPassScores()
+  scoreDisplay(content) if 0 < getPassScores()
   # blocks
   opened = true
   scores = getScore()
@@ -203,6 +203,7 @@ checkerClick = (e) ->
   return if !block_result 
   passDisplay(this.parentNode.parentNode.previousSibling)
   setScore this.getAttribute('regex_id'), true
+  scoreDisplay(document.getElementById 'content', data)
   next_title = this.parentNode.parentNode.nextSibling
   if !this.nextSibling && next_title != null && next_title.className == 'title' 
     inputs = document.createElement 'input'
@@ -227,7 +228,9 @@ passDisplay = (title) ->
   pass_tag.className = 'pass'
   title.appendChild pass_tag
 
-scoreDisplay = (content, data) ->
+scoreDisplay = (content) ->
+  first = content.firstChild
+  return if first.className == 'score' && first.style.display != 'none' 
   pass_scores = getPassScores()
   score_area = document.createElement 'div'
   score_area.className = 'score'

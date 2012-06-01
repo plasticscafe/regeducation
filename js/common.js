@@ -103,7 +103,7 @@ blockCreate = function(data) {
   var block, checker, content, d, description, doc, e, examples, inputs, opened, result, scores, tbody, td, th, title, tr, _i, _j, _len, _len2, _ref, _results;
   doc = document;
   content = doc.getElementById('content');
-  if (0 < getPassScores()) scoreDisplay(content, data);
+  if (0 < getPassScores()) scoreDisplay(content);
   opened = true;
   scores = getScore();
   _results = [];
@@ -229,6 +229,7 @@ checkerClick = function(e) {
   if (!block_result) return;
   passDisplay(this.parentNode.parentNode.previousSibling);
   setScore(this.getAttribute('regex_id'), true);
+  scoreDisplay(document.getElementById('content', data));
   next_title = this.parentNode.parentNode.nextSibling;
   if (!this.nextSibling && next_title !== null && next_title.className === 'title') {
     inputs = document.createElement('input');
@@ -260,8 +261,10 @@ passDisplay = function(title) {
   return title.appendChild(pass_tag);
 };
 
-scoreDisplay = function(content, data) {
-  var clear_btn, pass_scores, score_area, score_disp, score_label;
+scoreDisplay = function(content) {
+  var clear_btn, first, pass_scores, score_area, score_disp, score_label;
+  first = content.firstChild;
+  if (first.className === 'score' && first.style.display !== 'none') return;
   pass_scores = getPassScores();
   score_area = document.createElement('div');
   score_area.className = 'score';
