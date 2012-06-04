@@ -246,10 +246,8 @@ nextClick = function(e) {
 };
 
 clearScores = function(e) {
-  var score;
   clearScore();
-  score = document.getElementsByClassName('score');
-  return score[0].style.display = 'none';
+  return window.location.reload();
 };
 
 passDisplay = function(title) {
@@ -264,7 +262,9 @@ passDisplay = function(title) {
 scoreDisplay = function(content) {
   var clear_btn, first, pass_scores, score_area, score_disp, score_label;
   first = content.firstChild;
-  if (first.className === 'score' && first.style.display !== 'none') return;
+  if (first.className === 'score' && first.style.display !== 'none') {
+    content.removeChild(first);
+  }
   pass_scores = getPassScores();
   score_area = document.createElement('div');
   score_area.className = 'score';

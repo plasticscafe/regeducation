@@ -218,8 +218,7 @@ nextClick = (e) ->
 
 clearScores = (e) ->
   clearScore()
-  score = document.getElementsByClassName 'score'
-  score[0].style.display = 'none' 
+  window.location.reload()
 
 passDisplay = (title) ->
   return if 0 < title.getElementsByClassName('pass').length
@@ -230,7 +229,7 @@ passDisplay = (title) ->
 
 scoreDisplay = (content) ->
   first = content.firstChild
-  return if first.className == 'score' && first.style.display != 'none' 
+  content.removeChild first if first.className == 'score' && first.style.display != 'none' 
   pass_scores = getPassScores()
   score_area = document.createElement 'div'
   score_area.className = 'score'
