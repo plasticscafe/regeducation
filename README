@@ -1,1 +1,13 @@
-regex education tool
+正規表現トレーニングプラットフォーム？
+
+** 使い方
+
+js/data.js をサンプルに従って編集(または.coffeeを編集して変換
+
+あとはindex.htmlをブラウザで開けば動作するはず(chromeでのみチェック済み
+
+** 作成したデータのチェック
+
+js ディレクトリ内で下記コマンドを実行(mocha 必須）
+
+make test TESTS=test/data_check.js
