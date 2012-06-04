@@ -22,7 +22,7 @@ describe('data parse', function() {
         _results2 = [];
         for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
           e = _ref[_j];
-          _results2.push(regex.check(d.pattern, e.text, e.answer).should["true"]);
+          _results2.push(regex.check(d.pattern, e.text, e.answer).is_success.should["true"]);
         }
         return _results2;
       })());

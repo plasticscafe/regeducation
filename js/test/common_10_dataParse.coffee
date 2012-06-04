@@ -9,5 +9,5 @@ describe 'data parse', ->
   it 'loop execute', ->
     for d in data
       for e in d.example
-        regex.check(d.pattern, e.text, e.answer).should.true
+        regex.check(d.pattern, e.text, e.answer).is_success.should.true
 
