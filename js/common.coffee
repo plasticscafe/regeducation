@@ -14,7 +14,7 @@ class Regex
     re = new RegExp pt[1], pt[2]
     res = string.match(re)
     return res if res == null || res.length == 0
-    return [res[0]] if typeof res[1] == 'undefined'
+    return [res[0]] if !res[1]?
     res
 
   replace: (pattern, string) ->
@@ -259,6 +259,6 @@ getPassScores = ->
     pass_scores += 1 if scores[score] == true 
   pass_scores
 
-if typeof document != 'undefined' 
+if document? 
   document.addEventListener 'DOMContentLoaded', (e) ->
     blockCreate(data)

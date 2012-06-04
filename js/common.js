@@ -21,7 +21,7 @@ Regex = (function() {
     re = new RegExp(pt[1], pt[2]);
     res = string.match(re);
     if (res === null || res.length === 0) return res;
-    if (typeof res[1] === 'undefined') return [res[0]];
+    if (!(res[1] != null)) return [res[0]];
     return res;
   };
 
@@ -294,7 +294,7 @@ getPassScores = function() {
   return pass_scores;
 };
 
-if (typeof document !== 'undefined') {
+if (typeof document !== "undefined" && document !== null) {
   document.addEventListener('DOMContentLoaded', function(e) {
     return blockCreate(data);
   });
