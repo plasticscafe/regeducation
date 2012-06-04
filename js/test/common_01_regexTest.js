@@ -4,7 +4,7 @@ should = require('should');
 
 fs = require('fs');
 
-eval(fs.readFileSync('common.js', 'utf-8'));
+eval(fs.readFileSync('regex.js', 'utf-8'));
 
 describe('regex test', function() {
   var regex;
