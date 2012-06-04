@@ -28,15 +28,15 @@ class Regex
     pt = pattern.match(/^([^\/]*)(\/.*)$/)
     return null if pt is null
     if pt[1] == 'm'
-      this.match pt[2], string
+      @match pt[2], string
     else if pt[1] == 's'
-      this.replace pt[2], string
+      @replace pt[2], string
     else 
-      this.test pt[2], string
+      @test pt[2], string
 
   check: (pattern, string, answer) ->
-    res = this.exec pattern, string
-    is_success: this.is_equal res, answer
+    res = @exec pattern, string
+    is_success: @is_equal res, answer
     result: res
 
   is_equal: (a, b) ->
@@ -163,7 +163,7 @@ blockCreate = (data) ->
 
 # Event Action
 toggleBlock = (e) ->
-  openBlocks(this.nextSibling)
+  openBlocks(@nextSibling)
 
 openBlocks = (block) ->
   blocks = document.getElementsByClassName 'block'
@@ -172,8 +172,8 @@ openBlocks = (block) ->
   block.style.display = 'block' if block.style.display == 'none'
 
 checkerClick = (e) ->
-  examples = this.parentNode.previousSibling.childNodes
-  pattern = this.previousSibling.value.replace /^\s+|\s+$/g, '' 
+  examples = @parentNode.previousSibling.childNodes
+  pattern = @previousSibling.value.replace /^\s+|\s+$/g, '' 
   return false if  pattern == ''
   pattern_type = pattern.match /^([^\/]*)\/(.*)$/
   match_type = ''
@@ -201,20 +201,20 @@ checkerClick = (e) ->
         ex[2].textContent = '☓: ' + res.result
   # go to next stage
   return if !block_result 
-  passDisplay(this.parentNode.parentNode.previousSibling)
-  setScore this.getAttribute('regex_id'), true
+  passDisplay(@parentNode.parentNode.previousSibling)
+  setScore @getAttribute('regex_id'), true
   scoreDisplay(document.getElementById 'content', data)
-  next_title = this.parentNode.parentNode.nextSibling
-  if !this.nextSibling && next_title != null && next_title.className == 'title' 
+  next_title = @parentNode.parentNode.nextSibling
+  if !@nextSibling && next_title != null && next_title.className == 'title' 
     inputs = document.createElement 'input'
     inputs.setAttribute 'type', 'button'
     inputs.setAttribute 'value', 'go to next stage'
     inputs.className = 'next_btn'
     inputs.addEventListener 'click', nextClick
-    this.parentNode.appendChild inputs
+    @parentNode.appendChild inputs
 
 nextClick = (e) ->
-  openBlocks(this.parentNode.parentNode.nextSibling.nextSibling)
+  openBlocks(@parentNode.parentNode.nextSibling.nextSibling)
 
 clearScores = (e) ->
   clearScore()
